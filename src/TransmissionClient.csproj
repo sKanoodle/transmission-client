@@ -93,5 +93,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\transmission-api\src\TransmissionApi.csproj">
+      <Project>{921bcf23-249e-4ae6-ad6f-efbfab60116d}</Project>
+      <Name>TransmissionApi</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:Transmission.Client"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <DataTemplate DataType="{x:Type local:LoginViewModel}">
+            <local:LoginView/>
+        </DataTemplate>
     </Application.Resources>
 </Application>

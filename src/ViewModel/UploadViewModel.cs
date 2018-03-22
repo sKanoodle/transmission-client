@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Transmission.Client.ViewModel
 {
-    class UploadViewModel : ViewModelBase
+    public class UploadViewModel : ViewModelBase
     {
         private string _MagnetLink;
         public string MagnetLink
@@ -33,6 +33,11 @@ namespace Transmission.Client.ViewModel
             }
         }
 
+        public string[] DropFilenames
+        {
+            set => AddFiles(value);
+        }
+
         private Api.Client Client;
 
         public UploadViewModel(Api.Client client)
@@ -44,7 +49,20 @@ namespace Transmission.Client.ViewModel
 
         private void UploadLink(string link, bool doStart)
         {
-            Client.TorrentAdd(link, !doStart);
+            Client.TorrentAddAsync(link, !doStart);
         }
+
+        public void AddFiles(IEnumerable<string> files)
+        {
+            foreach (string path in files)
+            {
+                if (System.IO.Path.GetExtension(path) == ".torrent")
+                    throw new NotImplementedException();
+                foreach (string line in System.IO.File.ReadLines(path))
+                    AddMagnetLink(line);
+            }
+        }
+
+        private void AddMagnetLink(string magnet) => UploadLink(magnet, DoStart);
     }
 }

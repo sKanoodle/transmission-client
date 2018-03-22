@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Transmission.Client.ViewModel;
 
 namespace Transmission.Client.View
 {
@@ -23,6 +24,32 @@ namespace Transmission.Client.View
         public UploadView()
         {
             InitializeComponent();
+        }
+
+        private void Upload_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effects = DragDropEffects.Copy;
+            else
+                e.Effects = DragDropEffects.None;
+
+            e.Handled = true;
+        }
+
+        private void Upload_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effects = DragDropEffects.Copy;
+            else
+                e.Effects = DragDropEffects.None;
+
+            e.Handled = true;
+        }
+
+        private void Upload_Drop(object sender, DragEventArgs e)
+        {
+            var filenames = (string[])e.Data.GetData(DataFormats.FileDrop);
+            ((UploadViewModel)DataContext).DropFilenames = filenames;
         }
     }
 }

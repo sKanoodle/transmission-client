@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace Transmission.Client.ViewModel
 {
-    class LoginViewModel
+    public class LoginViewModel
     {
         public string Address { get; set; }
         public string Username { get; set; }

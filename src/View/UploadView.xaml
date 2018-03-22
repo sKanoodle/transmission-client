@@ -7,6 +7,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-            
+        <StackPanel>
+            <TextBox Text="{Binding MagnetLink, UpdateSourceTrigger=PropertyChanged}" />
+            <CheckBox IsChecked="{Binding DoStart}">
+                <TextBlock Text="Start when uploaded" />
+            </CheckBox>
+            <Button Command="{Binding Upload}" Content="Upload" />
+            <TextBlock Background="Aqua" Width="200" Height="200" DragEnter="Upload_DragEnter" DragOver="Upload_DragOver" Drop="Upload_Drop" IsHitTestVisible="True" AllowDrop="True" />
+        </StackPanel>
     </Grid>
 </UserControl>

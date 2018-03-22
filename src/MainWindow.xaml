@@ -4,17 +4,26 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Transmission.Client"
+        xmlns:view="clr-namespace:Transmission.Client.View"
+        xmlns:vm="clr-namespace:Transmission.Client.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <DataGrid ItemsSource="{Binding Path=Torrents}" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
-                <DataGridTextColumn Header="Done Rate" Binding="{Binding Path=PercentDone, StringFormat=P}" />
-                <DataGridTextColumn Header="Down-Speed" Binding="{Binding Path=RateDownload, StringFormat=N0}" />
-                <DataGridTextColumn Header="Up-Speed" Binding="{Binding Path=RateUpload, StringFormat=N0}" />
-                <DataGridTextColumn Header="Status" Binding="{Binding Path=Status}" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <TabControl>
+            <TabItem Header="Torrents">
+                <DataGrid ItemsSource="{Binding Path=Torrents}" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
+                        <DataGridTextColumn Header="Done Rate" Binding="{Binding Path=PercentDone, StringFormat=P}" />
+                        <DataGridTextColumn Header="Down-Speed" Binding="{Binding Path=RateDownload, StringFormat=N0}" />
+                        <DataGridTextColumn Header="Up-Speed" Binding="{Binding Path=RateUpload, StringFormat=N0}" />
+                        <DataGridTextColumn Header="Status" Binding="{Binding Path=Status}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Upload">
+                <view:UploadView DataContext="{Binding UploadVM}" />
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

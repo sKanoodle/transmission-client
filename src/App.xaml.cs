@@ -13,5 +13,14 @@ namespace Transmission.Client
     /// </summary>
     public partial class App : Application
     {
+        public string[] PossiblePaths { get; set; }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            // TODO: what if we dont have a path here?
+            PossiblePaths = e.Args;
+
+            base.OnStartup(e);
+        }
     }
 }

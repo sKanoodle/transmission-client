@@ -13,21 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Transmission.Client
+namespace Transmission.Client.View
 {
     /// <summary>
-    /// Interaction logic for LoginView.xaml
+    /// Interaction logic for UploadView.xaml
     /// </summary>
-    public partial class LoginView : UserControl
+    public partial class UploadView : UserControl
     {
-        public LoginView()
+        public UploadView()
         {
             InitializeComponent();
-        }
-
-        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            ((LoginViewModel)DataContext).Password = ((PasswordBox)sender).Password;
         }
     }
 }

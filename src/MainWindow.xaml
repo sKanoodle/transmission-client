@@ -13,6 +13,7 @@
                 <DataGridTextColumn Header="Done Rate" Binding="{Binding Path=PercentDone, StringFormat=P}" />
                 <DataGridTextColumn Header="Down-Speed" Binding="{Binding Path=RateDownload, StringFormat=N0}" />
                 <DataGridTextColumn Header="Up-Speed" Binding="{Binding Path=RateUpload, StringFormat=N0}" />
+                <DataGridTextColumn Header="Status" Binding="{Binding Path=Status}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

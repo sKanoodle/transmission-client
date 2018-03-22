@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Transmission.Api.Entities;
+using Transmission.Client.ViewModel;
+using Transmission.Client;
 
 namespace Transmission.Client
 {
@@ -49,10 +51,11 @@ namespace Transmission.Client
 
         private async Task UpdateShit(Api.Client client)
         {
-            var result = await client.TorrentGetAsync(TorrentFields.Name | TorrentFields.PercentDone | TorrentFields.RateDownload | TorrentFields.RateUpload);
+            var result = await client.TorrentGetAsync(TorrentFields.Id | TorrentFields.Name | TorrentFields.PercentDone | TorrentFields.RateDownload | TorrentFields.RateUpload | TorrentFields.Status);
             foreach (var torrent in result)
             {
-                Torrents.Remove(Torrents.Where(t => t.Name == torrent.Name).SingleOrDefault());
+                Torrent match = Torrents.SingleOrDefault(t => t.Id == torrent.Id);
+                Torrents.Remove(match);
                 Torrents.Add(torrent);
             }
         }

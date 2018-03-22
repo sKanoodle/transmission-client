@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace Transmission.Client
+namespace Transmission.Client.ViewModel
 {
     class LoginViewModel
     {

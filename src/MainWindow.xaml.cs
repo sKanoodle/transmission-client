@@ -20,6 +20,7 @@ using System.ComponentModel;
 using System.IO.Pipes;
 using System.IO;
 using Newtonsoft.Json;
+using System.Drawing;
 
 namespace Transmission.Client
 {
@@ -123,13 +124,60 @@ namespace Transmission.Client
 
         private async Task UpdateShit(Api.Client client)
         {
-            var result = await client.TorrentGetAsync(TorrentFields.Id | TorrentFields.Name | TorrentFields.PercentDone | TorrentFields.RateDownload | TorrentFields.RateUpload | TorrentFields.Status);
+            //var fields = TorrentFields.Id | TorrentFields.Name | TorrentFields.PercentDone | TorrentFields.RateDownload | TorrentFields.RateUpload | TorrentFields.Status | TorrentFields.Pieces;
+            var fields = TorrentFields.All;
+            var result = await client.TorrentGetAsync(fields);
+            System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
             foreach (var torrent in result)
             {
+                watch.Restart();
+                CreateTorrentPiecesBitmap(torrent);
+                System.Diagnostics.Debug.WriteLine($"drew {torrent.Id} in {watch.Elapsed}");
+
                 Torrent match = Torrents.SingleOrDefault(t => t.Id == torrent.Id);
                 Torrents.Remove(match);
                 Torrents.Add(torrent);
             }
+        }
+
+        private void CreateTorrentPiecesBitmap(Torrent torrent)
+        {
+            byte[] pieces = Convert.FromBase64String(torrent.Pieces);
+
+
+            int rowCount = 100;
+            Bitmap result = new Bitmap(torrent.PieceCount, rowCount, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            var bitmapData = result.LockBits(new System.Drawing.Rectangle(0, 0, result.Width, result.Height), System.Drawing.Imaging.ImageLockMode.WriteOnly, result.PixelFormat);
+            byte[] rowPixels = new byte[bitmapData.Stride];
+
+            void insertPixel(int index, byte r, byte g, byte b)
+            {
+                rowPixels[index * 3] = b;
+                rowPixels[index * 3 + 1] = g;
+                rowPixels[index * 3 + 2] = r;
+            }
+
+            for (int i = 0; i < torrent.PieceCount; i++)
+            {
+                // read bit at specific place in byte array
+                bool bit = (pieces[i / 8] & (1 << 7 - i % 8)) != 0;
+                if (bit)
+                    insertPixel(i, 255, 0, 0);
+                else
+                    insertPixel(i, 0, 255, 0);
+            }
+            
+            for (int row = 0; row < rowCount; row++)
+                unsafe
+                {
+                    byte* foo = ((byte*)bitmapData.Scan0.ToPointer() + row * bitmapData.Stride);
+                    System.Runtime.InteropServices.Marshal.Copy(rowPixels, 0, new IntPtr(foo), rowPixels.Length);
+                }
+
+            result.UnlockBits(bitmapData);
+
+            //Bitmap result = new Bitmap(torrent.PieceCount, rowCount, torrent.PieceCount * 3, System.Drawing.Imaging.PixelFormat.Format24bppRgb, new IntPtr(ptr));
+            result.Save($@"c:\temp\bitmaps\{torrent.Id}.png");
         }
     }
 

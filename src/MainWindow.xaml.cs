@@ -17,9 +17,6 @@ using Transmission.Api.Entities;
 using Transmission.Client.ViewModel;
 using Transmission.Client;
 using System.ComponentModel;
-using System.IO.Pipes;
-using System.IO;
-using Newtonsoft.Json;
 
 namespace Transmission.Client
 {
@@ -28,60 +25,15 @@ namespace Transmission.Client
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private const string PIPENAME = "sier-g30238eq-wugb3q3-3fw3waf32";
         public TrulyObservableCollection<TorrentViewModel> Torrents { get; } = new TrulyObservableCollection<TorrentViewModel>();
 
         public MainWindow()
         {
             DataContext = this;
             InitializeComponent();
-            if (!OpenPipe())
-            {
-                SendFiles();
+            if (!FilePathPipe.Run())
                 Close();
-            }
             DoStuffAsync();
-        }
-
-        private void SendFiles()
-        {
-            NamedPipeClientStream pipe = new NamedPipeClientStream(PIPENAME);
-            pipe.Connect();
-            StreamString ss = new StreamString(pipe);
-            string json = JsonConvert.SerializeObject(((App)Application.Current).PossiblePaths);
-            ss.WriteString(json);
-            pipe.WaitForPipeDrain();
-            pipe.Close();
-        }
-
-        private bool OpenPipe()
-        {
-            NamedPipeServerStream pipe;
-            try
-            {
-                pipe = new NamedPipeServerStream(PIPENAME);
-            }
-            catch (IOException)
-            {
-                return false;
-            }
-            RunPipeAsync(pipe);
-            return true;
-        }
-
-        private async Task RunPipeAsync(NamedPipeServerStream pipe)
-        {
-            while (true)
-            {
-                await pipe.WaitForConnectionAsync();
-                StreamString ss = new StreamString(pipe);
-                string json = await ss.ReadStringAsync();
-                var paths = JsonConvert.DeserializeObject<List<string>>(json);
-                // TODO: add paths...
-                System.Diagnostics.Debug.WriteLine($"other program sent files: {String.Join(", ", paths)}");
-                pipe.Close();
-                pipe = new NamedPipeServerStream(PIPENAME);
-            }
         }
 
         private UploadViewModel _UploadVM;
@@ -134,61 +86,6 @@ namespace Transmission.Client
                 else
                     Torrents.Add(new TorrentViewModel(torrent));
             }
-        }
-    }
-
-    // Defines the data protocol for reading and writing strings on our stream
-    public class StreamString
-    {
-        private Stream ioStream;
-        private UnicodeEncoding streamEncoding;
-
-        public StreamString(Stream ioStream)
-        {
-            this.ioStream = ioStream;
-            streamEncoding = new UnicodeEncoding();
-        }
-
-        public async Task<string> ReadStringAsync()
-        {
-            int len = ioStream.ReadByte() * 256;
-            len += ioStream.ReadByte();
-            byte[] inBuffer = new byte[len];
-            await ioStream.ReadAsync(inBuffer, 0, len);
-
-            return streamEncoding.GetString(inBuffer);
-        }
-
-        public async Task<int> WriteStringAsync(string outString)
-        {
-            byte[] outBuffer = streamEncoding.GetBytes(outString);
-            int len = outBuffer.Length;
-            if (len > UInt16.MaxValue)
-            {
-                len = UInt16.MaxValue;
-            }
-            ioStream.WriteByte((byte)(len / 256));
-            ioStream.WriteByte((byte)(len & 255));
-            await ioStream.WriteAsync(outBuffer, 0, len);
-            ioStream.Flush();
-
-            return outBuffer.Length + 2;
-        }
-
-        public int WriteString(string outString)
-        {
-            byte[] outBuffer = streamEncoding.GetBytes(outString);
-            int len = outBuffer.Length;
-            if (len > UInt16.MaxValue)
-            {
-                len = UInt16.MaxValue;
-            }
-            ioStream.WriteByte((byte)(len / 256));
-            ioStream.WriteByte((byte)(len & 255));
-            ioStream.Write(outBuffer, 0, len);
-            ioStream.Flush();
-
-            return outBuffer.Length + 2;
         }
     }
 }

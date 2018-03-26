@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using Transmission.Api.Entities;
 
 namespace Transmission.Client.ViewModel
@@ -39,6 +40,13 @@ namespace Transmission.Client.ViewModel
             set => SetValue(ref _PercentDone, value);
         }
 
+        private int _PieceCount;
+        public int PieceCount
+        {
+            get => _PieceCount;
+            set => SetValue(ref _PieceCount, value);
+        }
+
         private string _Pieces;
         private string Pieces
         {
@@ -63,8 +71,20 @@ namespace Transmission.Client.ViewModel
         public Bitmap PiecesGraphic
         {
             get => _PiecesGraphic;
-            set => SetValue(ref _PiecesGraphic, value);
+            set
+            {
+                if (SetValue(ref _PiecesGraphic, value))
+                    OnPropertyChanged(nameof(PiecesGraphicSource));
+            }
         }
+
+        public BitmapSource PiecesGraphicSource => PiecesGraphic == null 
+            ? null 
+            : System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                PiecesGraphic.GetHbitmap(),
+                IntPtr.Zero,
+                System.Windows.Int32Rect.Empty,
+                BitmapSizeOptions.FromWidthAndHeight(PiecesGraphic.Width, PiecesGraphic.Height));
 
         private int _RateDownload;
         public int RateDownload
@@ -86,8 +106,6 @@ namespace Transmission.Client.ViewModel
             get => _Status;
             set => SetValue(ref _Status, value);
         }
-
-        private int PieceCount;
 
         public TorrentViewModel(Torrent torrent)
         {
@@ -202,8 +220,8 @@ namespace Transmission.Client.ViewModel
             //torrent.PeersGettingFromUs;
             //torrent.PeersSendingToUs;
             PercentDone = torrent.PercentDone;
-            //torrent.PieceCount;
-            //torrent.Pieces;
+            PieceCount = torrent.PieceCount;
+            Pieces = torrent.Pieces;
             //torrent.PieceSize;
             ////torrent.Priorities; --> VM
             //torrent.QueuePosition;

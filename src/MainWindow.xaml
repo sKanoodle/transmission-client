@@ -26,6 +26,9 @@
             <TabItem Header="Upload">
                 <view:UploadView DataContext="{Binding UploadVM}" />
             </TabItem>
+            <TabItem Header="Info">
+                <view:TorrentView DataContext="{Binding SelectedTorrent}" />
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

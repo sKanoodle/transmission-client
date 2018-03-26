@@ -27,6 +27,8 @@ namespace Transmission.Client
     {
         public TrulyObservableCollection<TorrentViewModel> Torrents { get; } = new TrulyObservableCollection<TorrentViewModel>();
 
+        public TorrentViewModel SelectedTorrent => Torrents.FirstOrDefault();
+
         public MainWindow()
         {
             DataContext = this;
@@ -69,6 +71,7 @@ namespace Transmission.Client
             while (true)
             {
                 await UpdateShit(client);
+                OnPropertyChanged(nameof(SelectedTorrent));
                 await Task.Delay(TimeSpan.FromSeconds(1));
             }
         }

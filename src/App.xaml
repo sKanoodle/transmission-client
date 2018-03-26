@@ -9,5 +9,8 @@
         <DataTemplate DataType="{x:Type vm:LoginViewModel}">
             <view:LoginView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TorrentViewModel}">
+            <view:TorrentView/>
+        </DataTemplate>
     </Application.Resources>
 </Application>

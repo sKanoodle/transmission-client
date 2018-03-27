@@ -6,75 +6,82 @@
              xmlns:local="clr-namespace:Transmission.Client.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition Width="5" />
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="5" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="5" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="5" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="5" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="5" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
+    <TabControl>
+        <TabItem Header="Info">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Name" />
-        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Name}" />
+                <Label Grid.Row="0" Grid.Column="0" Content="Name" />
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Name}" />
 
-        <Label Grid.Row="2" Grid.Column="0" Content="Downspeed" />
-        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding RateDownload, Converter={StaticResource BinaryPrefixSpeedConverter}}">
+                <Label Grid.Row="2" Grid.Column="0" Content="Downspeed" />
+                <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding RateDownload, Converter={StaticResource BinaryPrefixSpeedConverter}}">
             <ToolTipService.ToolTip>
                 <TextBlock Text="{Binding RateDownload, StringFormat={}{0:N0} B/s}" />
             </ToolTipService.ToolTip>
         </TextBlock>
 
-        <Label Grid.Row="4" Grid.Column="0" Content="Downloaded" />
-        <TextBlock Grid.Row="4" Grid.Column="2">
-            <TextBlock.Text>
-                <MultiBinding StringFormat="{}{0} / {1} ({2:P2})">
-                    <Binding Path="HaveValid" Converter="{StaticResource BinaryPrefixConverter}" />
-                    <Binding Path="TotalSize" Converter="{StaticResource BinaryPrefixConverter}" />
-                    <Binding Path="PercentDone" />
-                </MultiBinding>
-            </TextBlock.Text>
-            <ToolTipService.ToolTip>
-                <TextBlock>
+                <Label Grid.Row="4" Grid.Column="0" Content="Downloaded" />
+                <TextBlock Grid.Row="4" Grid.Column="2">
                     <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0:N0} B / {1:N0} B">
-                            <Binding Path="HaveValid" />
-                            <Binding Path="TotalSize" />
+                        <MultiBinding StringFormat="{}{0} / {1} ({2:P2})">
+                            <Binding Path="HaveValid" Converter="{StaticResource BinaryPrefixConverter}" />
+                            <Binding Path="TotalSize" Converter="{StaticResource BinaryPrefixConverter}" />
+                            <Binding Path="PercentDone" />
                         </MultiBinding>
                     </TextBlock.Text>
+            <ToolTipService.ToolTip>
+                <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0:N0} B / {1:N0} B">
+                                    <Binding Path="HaveValid" />
+                                    <Binding Path="TotalSize" />
+                                </MultiBinding>
+                            </TextBlock.Text>
                 </TextBlock>
             </ToolTipService.ToolTip>
         </TextBlock>
 
-        <Label Grid.Row="6" Grid.Column="0" Content="Pieces" />
-        <TextBlock Grid.Row="6" Grid.Column="2">
-            <TextBlock.Text>
-                <MultiBinding StringFormat="{}{0:N0} / {1:N0} (@ {2})">
-                    <Binding Path="PiecesDone" />
-                    <Binding Path="PieceCount" />
-                    <Binding Path="PieceSize" Converter="{StaticResource BinaryPrefixConverter}"/>
-                </MultiBinding>
-            </TextBlock.Text>
+                <Label Grid.Row="6" Grid.Column="0" Content="Pieces" />
+                <TextBlock Grid.Row="6" Grid.Column="2">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0:N0} / {1:N0} (@ {2})">
+                            <Binding Path="PiecesDone" />
+                            <Binding Path="PieceCount" />
+                            <Binding Path="PieceSize" Converter="{StaticResource BinaryPrefixConverter}"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
             <ToolTipService.ToolTip>
                 <TextBlock Text="{Binding PieceSize, StringFormat={}{0:N0} B}" />
             </ToolTipService.ToolTip>
         </TextBlock>
 
-        <ScrollViewer Grid.Row="10" Grid.ColumnSpan="4" Grid.Column="0" 
+                <ScrollViewer Grid.Row="10" Grid.ColumnSpan="4" Grid.Column="0" 
                       HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-            <Image Source="{Binding PiecesGraphicSource}" Height="100"/>
-        </ScrollViewer>
-    </Grid>
+                    <Image Source="{Binding PiecesGraphicSource}" Height="100"/>
+                </ScrollViewer>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Files">
+            <local:DirectoryView DataContext="{Binding FilesRootDirectory}" />
+        </TabItem>
+    </TabControl>
 </UserControl>

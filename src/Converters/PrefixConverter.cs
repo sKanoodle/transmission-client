@@ -25,7 +25,7 @@ namespace Transmission.Client.Converters
                 throw new NotImplementedException();
 
             int thousands = 0;
-            while (result > Divisor)
+            while (result >= Divisor)
             {
                 result /= Divisor;
                 thousands += 1;

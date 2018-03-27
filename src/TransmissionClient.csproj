@@ -70,13 +70,22 @@
     <Compile Include="FilePathPipe.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="TrulyObservableCollection.cs" />
+    <Compile Include="ViewModel\DirectoryViewModel.cs" />
+    <Compile Include="ViewModel\FileViewModel.cs" />
     <Compile Include="ViewModel\TorrentViewModel.cs" />
+    <Compile Include="View\DirectoryView.xaml.cs">
+      <DependentUpon>DirectoryView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TorrentView.xaml.cs">
       <DependentUpon>TorrentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UploadView.xaml.cs">
       <DependentUpon>UploadView.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\DirectoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
@@ -18,6 +17,9 @@ namespace Transmission.Client.ViewModel
             get => _ActivityDate;
             set => SetValue(ref _ActivityDate, value);
         }
+
+        private Func<DirectoryViewModel> _CreateFilesRootDirectory;
+        public DirectoryViewModel FilesRootDirectory => _CreateFilesRootDirectory();
 
         private long _HaveValid;
         public long HaveValid
@@ -131,15 +133,6 @@ namespace Transmission.Client.ViewModel
             SetTorrent(torrent);
         }
 
-        private bool SetValue<T>(ref T backingField, T value, [CallerMemberName]string caller = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(backingField, value))
-                return false;
-            backingField = value;
-            OnPropertyChanged(caller);
-            return true;
-        }
-
         /// <summary>
         /// Creates a bitmap representation of downloaded pieces and their location. SIDE EFFECT: Also calculates downloaded pieces, because we have no information about that otherwise.
         /// </summary>
@@ -215,8 +208,7 @@ namespace Transmission.Client.ViewModel
             //torrent.ErrorString;
             //torrent.Eta;
             //torrent.EtaIdle;
-            ////torrent.Files; ---> needs extra ViewModel maybe?
-            ////torrent.FileStats --> same? maybe even one VM together?
+            _CreateFilesRootDirectory = () => new DirectoryViewModel(String.Empty, FileViewModel.CreateMany(torrent.FileStats, torrent.Files));
             //torrent.HashString;
             //torrent.HaveUnchecked;
             HaveValid = torrent.HaveValid;

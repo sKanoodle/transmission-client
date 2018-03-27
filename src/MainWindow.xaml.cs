@@ -27,7 +27,17 @@ namespace Transmission.Client
     {
         public TrulyObservableCollection<TorrentViewModel> Torrents { get; } = new TrulyObservableCollection<TorrentViewModel>();
 
-        public TorrentViewModel SelectedTorrent => Torrents.FirstOrDefault();
+        private TorrentViewModel _SelectedTorrent;
+        public TorrentViewModel SelectedTorrent
+        {
+            get => _SelectedTorrent;
+            set
+            {
+                if (_SelectedTorrent == value) return;
+                _SelectedTorrent = value;
+                OnPropertyChanged(nameof(SelectedTorrent));
+            }
+        }
 
         public MainWindow()
         {
@@ -71,7 +81,6 @@ namespace Transmission.Client
             while (true)
             {
                 await UpdateShit(client);
-                OnPropertyChanged(nameof(SelectedTorrent));
                 await Task.Delay(TimeSpan.FromSeconds(1));
             }
         }

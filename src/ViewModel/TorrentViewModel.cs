@@ -19,6 +19,13 @@ namespace Transmission.Client.ViewModel
             set => SetValue(ref _ActivityDate, value);
         }
 
+        private long _HaveValid;
+        public long HaveValid
+        {
+            get => _HaveValid;
+            set => SetValue(ref _HaveValid, value);
+        }
+
         private int _Id;
         public int Id
         {
@@ -65,8 +72,6 @@ namespace Transmission.Client.ViewModel
             set => SetValue(ref _PiecesDone, value);
         }
 
-        public int PiecesDoneByPercentDone => (int)Math.Round(PieceCount * PercentDone);
-
         private Bitmap _PiecesGraphic;
         public Bitmap PiecesGraphic
         {
@@ -85,6 +90,13 @@ namespace Transmission.Client.ViewModel
                 IntPtr.Zero,
                 System.Windows.Int32Rect.Empty,
                 BitmapSizeOptions.FromWidthAndHeight(PiecesGraphic.Width, PiecesGraphic.Height));
+
+        private int _PieceSize;
+        public int PieceSize
+        {
+            get => _PieceSize;
+            set => SetValue(ref _PieceSize, value);
+        }
 
         private int _RateDownload;
         public int RateDownload
@@ -105,6 +117,13 @@ namespace Transmission.Client.ViewModel
         {
             get => _Status;
             set => SetValue(ref _Status, value);
+        }
+
+        private long _TotalSize;
+        public long TotalSize
+        {
+            get => _TotalSize;
+            set => SetValue(ref _TotalSize, value);
         }
 
         public TorrentViewModel(Torrent torrent)
@@ -151,14 +170,14 @@ namespace Transmission.Client.ViewModel
             for (int i = 0; i < PieceCount; i++)
             {
                 // read bit at specific place in byte array (since each bit represents piece status, piece #0 is at first array index but is bit #7 in the byte)
-                bool pieceLoaded = (pieces[i / 8] & (1 << 7 - i % 8)) == 0;
+                bool pieceLoaded = (pieces[i / 8] & (1 << 7 - i % 8)) != 0;
                 if (pieceLoaded)
                 {
                     piecesDone++;
-                    insertPixel(i, 255, 0, 0); //green
+                    insertPixel(i, 0, 255, 0); //green
                 }
                 else
-                    insertPixel(i, 0, 255, 0); //red
+                    insertPixel(i, 255, 0, 0); //red
             }
 
             for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
@@ -200,7 +219,7 @@ namespace Transmission.Client.ViewModel
             ////torrent.FileStats --> same? maybe even one VM together?
             //torrent.HashString;
             //torrent.HaveUnchecked;
-            //torrent.HaveValid;
+            HaveValid = torrent.HaveValid;
             //torrent.HonorsSessionLimits;
             Id = torrent.Id;
             //torrent.IsFinished;
@@ -222,7 +241,7 @@ namespace Transmission.Client.ViewModel
             PercentDone = torrent.PercentDone;
             PieceCount = torrent.PieceCount;
             Pieces = torrent.Pieces;
-            //torrent.PieceSize;
+            PieceSize = torrent.PieceSize;
             ////torrent.Priorities; --> VM
             //torrent.QueuePosition;
             RateDownload = torrent.RateDownload;
@@ -238,7 +257,7 @@ namespace Transmission.Client.ViewModel
             //torrent.StartDate;
             Status = torrent.Status;
             //torrent.TorrentFile;
-            //torrent.TotalSize;
+            TotalSize = torrent.TotalSize;
             ////torrent.Trackers; --> tracker VM
             ////torrent.TrackerStats; --> tracker VM
             //torrent.UploadedEver;

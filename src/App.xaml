@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:Transmission.Client"
              xmlns:view="clr-namespace:Transmission.Client.View"
              xmlns:vm="clr-namespace:Transmission.Client.ViewModel"
+             xmlns:converters="clr-namespace:Transmission.Client.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <DataTemplate DataType="{x:Type vm:LoginViewModel}">
@@ -12,5 +13,7 @@
         <DataTemplate DataType="{x:Type vm:TorrentViewModel}">
             <view:TorrentView/>
         </DataTemplate>
+        <converters:BinaryPrefixConverter x:Key="BinaryPrefixConverter" />
+        <converters:BinaryPrefixSpeedConverter x:Key="BinaryPrefixSpeedConverter" />
     </Application.Resources>
 </Application>

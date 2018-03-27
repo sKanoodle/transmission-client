@@ -62,6 +62,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BinaryPrefixConverter.cs" />
+    <Compile Include="Converters\BinaryPrefixSpeedConverter.cs" />
+    <Compile Include="Converters\MetricPrefixSpeedConverter.cs" />
+    <Compile Include="Converters\MetricPrefixConverter.cs" />
+    <Compile Include="Converters\PrefixConverter.cs" />
     <Compile Include="FilePathPipe.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="TrulyObservableCollection.cs" />

@@ -16,14 +16,15 @@ namespace Transmission.Client.Converters
         virtual public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             double result;
-
-            if (value is long l)
-                result = l;
-            else if (value is int i)
-                result = i;
-            else
-                throw new NotImplementedException();
-
+            switch (value)
+            {
+                case long l: result = l; break;
+                case ulong ul: result = ul; break;
+                case int i: result = i; break;
+                case uint ui: result = ui; break;
+                default: throw new NotImplementedException();
+            }
+            
             int thousands = 0;
             while (result >= Divisor)
             {

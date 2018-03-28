@@ -21,8 +21,8 @@ namespace Transmission.Client.ViewModel
         private Func<DirectoryViewModel> _CreateFilesRootDirectory;
         public DirectoryViewModel FilesRootDirectory => _CreateFilesRootDirectory();
 
-        private long _HaveValid;
-        public long HaveValid
+        private ulong _HaveValid;
+        public ulong HaveValid
         {
             get => _HaveValid;
             set => SetValue(ref _HaveValid, value);
@@ -93,8 +93,8 @@ namespace Transmission.Client.ViewModel
                 System.Windows.Int32Rect.Empty,
                 BitmapSizeOptions.FromWidthAndHeight(PiecesGraphic.Width, PiecesGraphic.Height));
 
-        private int _PieceSize;
-        public int PieceSize
+        private uint _PieceSize;
+        public uint PieceSize
         {
             get => _PieceSize;
             set => SetValue(ref _PieceSize, value);
@@ -121,8 +121,8 @@ namespace Transmission.Client.ViewModel
             set => SetValue(ref _Status, value);
         }
 
-        private long _TotalSize;
-        public long TotalSize
+        private ulong _TotalSize;
+        public ulong TotalSize
         {
             get => _TotalSize;
             set => SetValue(ref _TotalSize, value);

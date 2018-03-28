@@ -9,7 +9,7 @@ namespace Transmission.Client.ViewModel
 {
     public class FileViewModel : ViewModelBase
     {
-        public long BytesCompleted { get; }
+        public ulong BytesCompleted { get; }
         public int Priority { get; }
 
         private bool _Wanted;
@@ -19,7 +19,7 @@ namespace Transmission.Client.ViewModel
             set => SetValue(ref _Wanted, value);
         }
 
-        public long Length { get; }
+        public ulong Length { get; }
         public string Name { get; set; }
 
         public FileViewModel(FileStats stats, File file)

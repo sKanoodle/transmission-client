@@ -80,6 +80,20 @@
                 </ScrollViewer>
             </Grid>
         </TabItem>
+        <TabItem Header="Peers">
+            <DataGrid ItemsSource="{Binding Peers}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Encrypted" Binding="{Binding IsEncrypted}" />
+                    <DataGridTextColumn Header="Up" Binding="{Binding RateToPeer, Converter={StaticResource BinaryPrefixSpeedConverter}}" />
+                    <DataGridTextColumn Header="Down" Binding="{Binding RateToClient, Converter={StaticResource BinaryPrefixSpeedConverter}}" />
+                    <DataGridTextColumn Header="Progress" Binding="{Binding Progress, StringFormat=P2}" />
+                    <DataGridTextColumn Header="Args" Binding="{Binding FlagStr}" />
+                    <DataGridTextColumn Header="Address" Binding="{Binding Address}" />
+                    <DataGridTextColumn Header="Client" Binding="{Binding ClientName}" />
+                    <DataGridTextColumn Header="Port" Binding="{Binding Port}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </TabItem>
         <TabItem Header="Files">
             <local:DirectoryView DataContext="{Binding FilesRootDirectory}" />
         </TabItem>

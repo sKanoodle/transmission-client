@@ -72,6 +72,7 @@
     <Compile Include="TrulyObservableCollection.cs" />
     <Compile Include="ViewModel\DirectoryViewModel.cs" />
     <Compile Include="ViewModel\FileViewModel.cs" />
+    <Compile Include="ViewModel\PeerViewModel.cs" />
     <Compile Include="ViewModel\TorrentViewModel.cs" />
     <Compile Include="View\DirectoryView.xaml.cs">
       <DependentUpon>DirectoryView.xaml</DependentUpon>

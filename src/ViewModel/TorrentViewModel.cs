@@ -42,6 +42,8 @@ namespace Transmission.Client.ViewModel
             set => SetValue(ref _Name, value);
         }
 
+        public TrulyObservableCollection<PeerViewModel> Peers { get; } = new TrulyObservableCollection<PeerViewModel>();
+
         private double _PercentDone;
         public double PercentDone
         {
@@ -225,7 +227,7 @@ namespace Transmission.Client.ViewModel
             //torrent.MetadataPercentComplete;
             Name = torrent.Name;
             //torrent.PeerLimit;
-            ////torrent.Peers; --> again VM
+            HandlePeers(torrent.Peers);
             //torrent.PeersConnected;
             ////torrent.PeersFrom --> own VM
             //torrent.PeersGettingFromUs;
@@ -258,6 +260,31 @@ namespace Transmission.Client.ViewModel
             ////torrent.Wanted; --> VM
             ////torrent.Webseeds; --> VM
             //torrent.WebseedsSendingToUs;
+        }
+
+        private void HandlePeers(IEnumerable<Peer> peers)
+        {
+            int peerHash(Peer peer) => peer.Address.GetHashCode() ^ peer.Port.GetHashCode() ^ peer.ClientName.GetHashCode();
+            int peerHash2(PeerViewModel peer) => peer.Address.GetHashCode() ^ peer.Port.GetHashCode() ^ peer.ClientName.GetHashCode();
+
+            Dictionary<int, PeerViewModel> hashToPeerVM = Peers.ToDictionary(p => peerHash2(p), p => p);
+            List<int> oldHashes = hashToPeerVM.Keys.ToList();
+
+            foreach (var peer in peers)
+            {
+                int hash = peerHash(peer);
+
+                if (hashToPeerVM.TryGetValue(hash, out var match))
+                {
+                    oldHashes.Remove(hash);
+                    match.Update(peer);
+                }
+                else
+                    Peers.Add(new PeerViewModel(peer));
+            }
+
+            foreach (int hash in oldHashes)
+                Peers.Remove(hashToPeerVM[hash]);
         }
     }
 }

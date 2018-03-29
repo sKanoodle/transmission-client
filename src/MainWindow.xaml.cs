@@ -43,7 +43,7 @@ namespace Transmission.Client
         {
             DataContext = this;
             InitializeComponent();
-            if (!FilePathPipe.Run())
+            if (!FilePathPipe.Run(p => UploadVM.DropFilenames = p)) // there is a chance for a null referenec exception here
                 Close();
             DoStuffAsync();
         }
@@ -76,8 +76,7 @@ namespace Transmission.Client
             window.ShowDialog();
 
             Api.Client client = new Api.Client(LoginVM.Address, LoginVM.Username, LoginVM.Password);
-            UploadVM = new UploadViewModel(client);
-            UploadVM.AddFiles(((App)Application.Current).PossiblePaths);
+            UploadVM = new UploadViewModel(client, ((App)Application.Current).PossiblePaths);
             while (true)
             {
                 await UpdateShit(client);

@@ -13,12 +13,14 @@ namespace Transmission.Client
     static class FilePathPipe
     {
         private const string PIPENAME = "sier-g30238eq-wugb3q3-3fw3waf32";
+        private static Action<string[]> ProcessPaths;
 
         /// <summary>
         /// Either runs the pipe (true) or sends the filenames to the running application (false).
         /// </summary>
-        public static bool Run()
+        public static bool Run(Action<string[]> processPaths)
         {
+            ProcessPaths = processPaths;
             bool result;
             if (result = !OpenPipe())
                 SendFiles();
@@ -61,8 +63,8 @@ namespace Transmission.Client
                 await pipe.WaitForConnectionAsync();
                 StreamString ss = new StreamString(pipe);
                 string json = await ss.ReadStringAsync();
-                var paths = JsonConvert.DeserializeObject<List<string>>(json);
-                // TODO: add paths...
+                var paths = JsonConvert.DeserializeObject<string[]>(json);
+                ProcessPaths(paths);
                 System.Diagnostics.Debug.WriteLine($"other program sent files: {String.Join(", ", paths)}");
                 pipe.Close();
                 pipe = new NamedPipeServerStream(PIPENAME);

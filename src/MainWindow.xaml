@@ -16,8 +16,8 @@
                         <DataGridTextColumn Header="ID" Binding="{Binding Path=Id}" />
                         <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
                         <DataGridTextColumn Header="Done Rate" Binding="{Binding Path=PercentDone, StringFormat=P}" />
-                        <DataGridTextColumn Header="Down-Speed" Binding="{Binding Path=RateDownload, StringFormat=N0}" />
-                        <DataGridTextColumn Header="Up-Speed" Binding="{Binding Path=RateUpload, StringFormat=N0}" />
+                        <DataGridTextColumn Header="Down-Speed" Binding="{Binding Path=RateDownload, Converter={StaticResource BinaryPrefixSpeedConverter}}" />
+                        <DataGridTextColumn Header="Up-Speed" Binding="{Binding Path=RateUpload, Converter={StaticResource BinaryPrefixSpeedConverter}}" />
                         <DataGridTextColumn Header="Status" Binding="{Binding Path=Status}" />
                         <DataGridTextColumn Header="ActivityDate" Binding="{Binding Path=ActivityDate}" />
                     </DataGrid.Columns>

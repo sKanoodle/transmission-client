@@ -12,8 +12,19 @@
             <CheckBox IsChecked="{Binding DoStart}">
                 <TextBlock Text="Start when uploaded" />
             </CheckBox>
-            <Button Command="{Binding Upload}" Content="Upload" />
+            <StackPanel Orientation="Horizontal">
+                <Button Command="{Binding AddMagnetLinkCommand}" Content="Add Magnet Link" />
+                <Button Command="{Binding UploadMagnetLinkCommand}" Content="Upload Magnet Link" />
+                <Button Command="{Binding UploadObjectsCommand}" Content="Upload Below Objects" />
+            </StackPanel>
             <TextBlock Background="Aqua" Width="200" Height="200" DragEnter="Upload_DragEnter" DragOver="Upload_DragOver" Drop="Upload_Drop" IsHitTestVisible="True" AllowDrop="True" />
+            <ListView ItemsSource="{Binding Objects}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Label Content="{Binding Name}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Expander Header="{Binding Name}">
+        <Expander Header="{Binding Name}" IsExpanded="True">
             <StackPanel>
                 <ListView ItemsSource="{Binding Directories}">
                     <ListView.ItemTemplate>

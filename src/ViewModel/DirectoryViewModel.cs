@@ -12,30 +12,41 @@ namespace Transmission.Client.ViewModel
         public FileViewModel[] Files { get; }
         public string Name { get; }
 
-        public DirectoryViewModel(string name, IEnumerable<FileViewModel> files)
+        private DirectoryViewModel(string name, DirectoryViewModel[] directories, FileViewModel[] files)
         {
             Name = name;
+            Files = files;
+            Directories = directories;
+        }
+
+        public static DirectoryViewModel Create(string name, IEnumerable<FileViewModel> fileVMs)
+        {
             // prevent IEnumerables from becoming too complicated
-            files = files.ToArray();
+            fileVMs = fileVMs.ToArray();
             // no need to remove folder on root dir (name is empty here)
-            if (!String.IsNullOrEmpty(Name))
-                foreach (var file in files)
-                    file.Name = file.Name.Substring(Name.Length + 1);
+            if (!String.IsNullOrEmpty(name))
+                foreach (var file in fileVMs)
+                    file.Name = file.Name.Substring(name.Length + 1);
 
             // relies on the directory delimenter being '/'
-            var filesWithRootDir = files.Select(f => new { File = f, Root = f.Name.Split('/')[0] });
+            var filesWithRootDir = fileVMs.Select(f => new { File = f, Root = f.Name.Split('/')[0] });
 
             // if a path contains no more folder the split part and the original name are the same
-            Files = filesWithRootDir
+            var files = filesWithRootDir
                 .Where(o => o.Root == o.File.Name)
                 .Select(o => o.File)
                 .ToArray();
 
-            Directories = filesWithRootDir
+            var directories = filesWithRootDir
                 .Where(o => o.Root != o.File.Name)
                 .GroupBy(o => o.Root, o => o.File)
-                .Select(g => new DirectoryViewModel(g.Key, g))
+                .Select(g => Create(g.Key, g))
                 .ToArray();
+
+            //if root directory (name is string.empty) has only one subfolder, make that subfolder root
+            if (!String.IsNullOrEmpty(name) || files.Any() || directories.Count() != 1)
+                return new DirectoryViewModel(name, directories, files);
+            return directories.Single();
         }
 
         public override string ToString() => Name;

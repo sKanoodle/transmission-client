@@ -81,18 +81,61 @@
             </Grid>
         </TabItem>
         <TabItem Header="Peers">
-            <DataGrid ItemsSource="{Binding Peers}" AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Encrypted" Binding="{Binding IsEncrypted}" />
-                    <DataGridTextColumn Header="Up" Binding="{Binding RateToPeer, Converter={StaticResource BinaryPrefixSpeedConverter}}" />
-                    <DataGridTextColumn Header="Down" Binding="{Binding RateToClient, Converter={StaticResource BinaryPrefixSpeedConverter}}" />
-                    <DataGridTextColumn Header="Progress" Binding="{Binding Progress, StringFormat=P2}" />
-                    <DataGridTextColumn Header="Args" Binding="{Binding FlagStr}" />
-                    <DataGridTextColumn Header="Address" Binding="{Binding Address}" />
-                    <DataGridTextColumn Header="Client" Binding="{Binding ClientName}" />
-                    <DataGridTextColumn Header="Port" Binding="{Binding Port}" />
-                </DataGrid.Columns>
-            </DataGrid>
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="5" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="5" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="5" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    
+                    <Label Grid.Row="0" Grid.Column="0" Content="Peers from Cache" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PeersFrom.FromCache}" />
+
+                    <Label Grid.Row="2" Grid.Column="0" Content="Peers from DHT" />
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding PeersFrom.FromDht}" />
+
+                    <Label Grid.Row="4" Grid.Column="0" Content="Peers from Incoming" />
+                    <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding PeersFrom.FromIncoming}" />
+
+                    <Label Grid.Row="6" Grid.Column="0" Content="Peers from LPD" />
+                    <TextBlock Grid.Row="6" Grid.Column="2" Text="{Binding PeersFrom.FromLpd}" />
+
+                    <Label Grid.Row="0" Grid.Column="4" Content="Peers from LTEP" />
+                    <TextBlock Grid.Row="0" Grid.Column="6" Text="{Binding PeersFrom.fromLtep}" />
+
+                    <Label Grid.Row="2" Grid.Column="4" Content="Peers from PEX" />
+                    <TextBlock Grid.Row="2" Grid.Column="6" Text="{Binding PeersFrom.FromPex}" />
+
+                    <Label Grid.Row="4" Grid.Column="4" Content="Peers from Tracker" />
+                    <TextBlock Grid.Row="4" Grid.Column="6" Text="{Binding PeersFrom.FromTracker}" />
+                </Grid>
+                <DataGrid ItemsSource="{Binding Peers}" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Encrypted" Binding="{Binding IsEncrypted}" />
+                        <DataGridTextColumn Header="Up" Binding="{Binding RateToPeer, Converter={StaticResource BinaryPrefixSpeedConverter}}" />
+                        <DataGridTextColumn Header="Down" Binding="{Binding RateToClient, Converter={StaticResource BinaryPrefixSpeedConverter}}" />
+                        <DataGridTextColumn Header="Progress" Binding="{Binding Progress, StringFormat=P2}" />
+                        <DataGridTextColumn Header="Args" Binding="{Binding FlagStr}" />
+                        <DataGridTextColumn Header="Address" Binding="{Binding Address}" />
+                        <DataGridTextColumn Header="Client" Binding="{Binding ClientName}" />
+                        <DataGridTextColumn Header="Port" Binding="{Binding Port}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
         </TabItem>
         <TabItem Header="Files">
             <local:DirectoryView DataContext="{Binding FilesRootDirectory}" />

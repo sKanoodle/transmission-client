@@ -44,6 +44,14 @@ namespace Transmission.Client.ViewModel
 
         public TrulyObservableCollection<PeerViewModel> Peers { get; } = new TrulyObservableCollection<PeerViewModel>();
 
+
+        private PeersFrom _PeersFrom;
+        public PeersFrom PeersFrom
+        {
+            get => _PeersFrom;
+            set => SetValue(ref _PeersFrom, value);
+        }
+
         private double _PercentDone;
         public double PercentDone
         {
@@ -210,7 +218,7 @@ namespace Transmission.Client.ViewModel
             //torrent.ErrorString;
             //torrent.Eta;
             //torrent.EtaIdle;
-            _CreateFilesRootDirectory = () => new DirectoryViewModel(String.Empty, FileViewModel.CreateMany(torrent.FileStats, torrent.Files));
+            _CreateFilesRootDirectory = () => DirectoryViewModel.Create(String.Empty, FileViewModel.CreateMany(torrent.FileStats, torrent.Files));
             //torrent.HashString;
             //torrent.HaveUnchecked;
             HaveValid = torrent.HaveValid;
@@ -229,14 +237,14 @@ namespace Transmission.Client.ViewModel
             //torrent.PeerLimit;
             HandlePeers(torrent.Peers);
             //torrent.PeersConnected;
-            ////torrent.PeersFrom --> own VM
+            PeersFrom = torrent.PeersFrom;
             //torrent.PeersGettingFromUs;
             //torrent.PeersSendingToUs;
             PercentDone = torrent.PercentDone;
             PieceCount = torrent.PieceCount;
             Pieces = torrent.Pieces;
             PieceSize = torrent.PieceSize;
-            ////torrent.Priorities; --> VM
+            ////torrent.Priorities; no need, is already in FileStats
             //torrent.QueuePosition;
             RateDownload = torrent.RateDownload;
             RateUpload = torrent.RateUpload;
@@ -257,7 +265,7 @@ namespace Transmission.Client.ViewModel
             //torrent.UploadedEver;
             //torrent.UploadLimit;
             //torrent.UploadRatio;
-            ////torrent.Wanted; --> VM
+            ////torrent.Wanted; no need, is already in FileStats
             ////torrent.Webseeds; --> VM
             //torrent.WebseedsSendingToUs;
         }

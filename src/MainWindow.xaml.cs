@@ -26,6 +26,7 @@ namespace Transmission.Client
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public TrulyObservableCollection<TorrentViewModel> Torrents { get; } = new TrulyObservableCollection<TorrentViewModel>();
+        public TorrentCumulationViewModel TorrentCumulationVM => new TorrentCumulationViewModel(Torrents); // never updated
 
         private TorrentViewModel _SelectedTorrent;
         public TorrentViewModel SelectedTorrent

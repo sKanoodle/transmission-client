@@ -18,8 +18,22 @@ namespace Transmission.Client.ViewModel
             set => SetValue(ref _ActivityDate, value);
         }
 
+        private ulong _CorruptEver;
+        public ulong CorruptEver
+        {
+            get => _CorruptEver;
+            set => SetValue(ref _CorruptEver, value);
+        }
+
         private Func<DirectoryViewModel> _CreateFilesRootDirectory;
         public DirectoryViewModel FilesRootDirectory => _CreateFilesRootDirectory();
+
+        private ulong _HaveUnchecked;
+        public ulong HaveUnchecked
+        {
+            get => _HaveUnchecked;
+            set => SetValue(ref _HaveUnchecked, value);
+        }
 
         private ulong _HaveValid;
         public ulong HaveValid
@@ -44,12 +58,32 @@ namespace Transmission.Client.ViewModel
 
         public TrulyObservableCollection<PeerViewModel> Peers { get; } = new TrulyObservableCollection<PeerViewModel>();
 
+        private int _PeersConnected;
+        public int PeersConnected
+        {
+            get => _PeersConnected;
+            set => SetValue(ref _PeersConnected, value);
+        }
 
         private PeersFrom _PeersFrom;
         public PeersFrom PeersFrom
         {
             get => _PeersFrom;
             set => SetValue(ref _PeersFrom, value);
+        }
+
+        private int _PeersGettingFromUs;
+        public int PeersGettingFromUs
+        {
+            get => _PeersGettingFromUs;
+            set => SetValue(ref _PeersGettingFromUs, value);
+        }
+
+        private int _PeersSendingToUs;
+        public int PeersSendingToUs
+        {
+            get => _PeersSendingToUs;
+            set => SetValue(ref _PeersSendingToUs, value);
         }
 
         private double _PercentDone;
@@ -124,6 +158,13 @@ namespace Transmission.Client.ViewModel
             set => SetValue(ref _RateUpload, value);
         }
 
+        private ulong _SizeWhenDone;
+        public ulong SizeWhenDone
+        {
+            get => _SizeWhenDone;
+            set => SetValue(ref _SizeWhenDone, value);
+        }
+
         private Status _Status;
         public Status Status
         {
@@ -136,6 +177,13 @@ namespace Transmission.Client.ViewModel
         {
             get => _TotalSize;
             set => SetValue(ref _TotalSize, value);
+        }
+
+        private ulong _UploadedEver;
+        public ulong UploadedEver
+        {
+            get => _UploadedEver;
+            set => SetValue(ref _UploadedEver, value);
         }
 
         public TorrentViewModel(Torrent torrent)
@@ -205,7 +253,7 @@ namespace Transmission.Client.ViewModel
             //torrent.AddedDate;
             //torrent.BandwidthPriority;
             //torrent.Comment;
-            //torrent.CorruptEver;
+            CorruptEver = torrent.CorruptEver;
             //torrent.Creator;
             //torrent.DateCreated;
             //torrent.DesiredAvailable;
@@ -220,7 +268,7 @@ namespace Transmission.Client.ViewModel
             //torrent.EtaIdle;
             _CreateFilesRootDirectory = () => DirectoryViewModel.Create(String.Empty, FileViewModel.CreateMany(torrent.FileStats, torrent.Files));
             //torrent.HashString;
-            //torrent.HaveUnchecked;
+            HaveUnchecked = torrent.HaveUnchecked;
             HaveValid = torrent.HaveValid;
             //torrent.HonorsSessionLimits;
             Id = torrent.Id;
@@ -236,10 +284,10 @@ namespace Transmission.Client.ViewModel
             Name = torrent.Name;
             //torrent.PeerLimit;
             HandlePeers(torrent.Peers);
-            //torrent.PeersConnected;
+            PeersConnected = torrent.PeersConnected;
             PeersFrom = torrent.PeersFrom;
-            //torrent.PeersGettingFromUs;
-            //torrent.PeersSendingToUs;
+            PeersGettingFromUs = torrent.PeersGettingFromUs;
+            PeersSendingToUs = torrent.PeersSendingToUs;
             PercentDone = torrent.PercentDone;
             PieceCount = torrent.PieceCount;
             Pieces = torrent.Pieces;
@@ -255,14 +303,14 @@ namespace Transmission.Client.ViewModel
             //torrent.SeedIdleMode;
             //torrent.SeedRatioLimit;
             //torrent.SeedRatioMode;
-            //torrent.SizeWhenDone;
+            SizeWhenDone = torrent.SizeWhenDone;
             //torrent.StartDate;
             Status = torrent.Status;
             //torrent.TorrentFile;
             TotalSize = torrent.TotalSize;
             ////torrent.Trackers; --> tracker VM
             ////torrent.TrackerStats; --> tracker VM
-            //torrent.UploadedEver;
+            UploadedEver = torrent.UploadedEver;
             //torrent.UploadLimit;
             //torrent.UploadRatio;
             ////torrent.Wanted; no need, is already in FileStats

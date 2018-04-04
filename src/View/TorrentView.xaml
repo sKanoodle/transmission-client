@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Transmission.Client.View"
+             xmlns:fields="clr-namespace:Transmission.Client.View.Fields"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <TabControl>
@@ -33,32 +34,11 @@
                 <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Name}" />
 
                 <Label Grid.Row="2" Grid.Column="0" Content="Downspeed" />
-                <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding RateDownload, Converter={StaticResource BinaryPrefixSpeedConverter}}">
-            <ToolTipService.ToolTip>
-                <TextBlock Text="{Binding RateDownload, StringFormat={}{0:N0} B/s}" />
-            </ToolTipService.ToolTip>
-        </TextBlock>
+                <fields:SpeedView Grid.Row="2" Grid.Column="2" Speed="{Binding DataContext.RateDownload, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:TorrentView}}" />
 
                 <Label Grid.Row="4" Grid.Column="0" Content="Downloaded" />
-                <TextBlock Grid.Row="4" Grid.Column="2">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0} / {1} ({2:P2})">
-                            <Binding Path="HaveValid" Converter="{StaticResource BinaryPrefixConverter}" />
-                            <Binding Path="TotalSize" Converter="{StaticResource BinaryPrefixConverter}" />
-                            <Binding Path="PercentDone" />
-                        </MultiBinding>
-                    </TextBlock.Text>
-            <ToolTipService.ToolTip>
-                <TextBlock>
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0:N0} B / {1:N0} B">
-                                    <Binding Path="HaveValid" />
-                                    <Binding Path="TotalSize" />
-                                </MultiBinding>
-                            </TextBlock.Text>
-                </TextBlock>
-            </ToolTipService.ToolTip>
-        </TextBlock>
+                <fields:DownloadedView Grid.Row="4" Grid.Column="2" DataContext="{Binding}" />
+
 
                 <Label Grid.Row="6" Grid.Column="0" Content="Pieces" />
                 <TextBlock Grid.Row="6" Grid.Column="2">
@@ -69,13 +49,12 @@
                             <Binding Path="PieceSize" Converter="{StaticResource BinaryPrefixConverter}"/>
                         </MultiBinding>
                     </TextBlock.Text>
-            <ToolTipService.ToolTip>
-                <TextBlock Text="{Binding PieceSize, StringFormat={}{0:N0} B}" />
-            </ToolTipService.ToolTip>
-        </TextBlock>
+                    <ToolTipService.ToolTip>
+                        <TextBlock Text="{Binding PieceSize, StringFormat={}{0:N0} B}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
 
-                <ScrollViewer Grid.Row="10" Grid.ColumnSpan="4" Grid.Column="0" 
-                      HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                <ScrollViewer Grid.Row="10" Grid.ColumnSpan="4" Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
                     <Image Source="{Binding PiecesGraphicSource}" Height="100"/>
                 </ScrollViewer>
             </Grid>
@@ -101,7 +80,7 @@
                         <RowDefinition Height="5" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    
+
                     <Label Grid.Row="0" Grid.Column="0" Content="Peers from Cache" />
                     <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding PeersFrom.FromCache}" />
 

@@ -73,9 +73,19 @@
     <Compile Include="ViewModel\DirectoryViewModel.cs" />
     <Compile Include="ViewModel\FileViewModel.cs" />
     <Compile Include="ViewModel\PeerViewModel.cs" />
+    <Compile Include="ViewModel\TorrentCumulationViewModel.cs" />
     <Compile Include="ViewModel\TorrentViewModel.cs" />
     <Compile Include="View\DirectoryView.xaml.cs">
       <DependentUpon>DirectoryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Fields\DownloadedView.xaml.cs">
+      <DependentUpon>DownloadedView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Fields\SpeedView.xaml.cs">
+      <DependentUpon>SpeedView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TorrentCumulationView.xaml.cs">
+      <DependentUpon>TorrentCumulationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TorrentView.xaml.cs">
       <DependentUpon>TorrentView.xaml</DependentUpon>
@@ -84,6 +94,14 @@
       <DependentUpon>UploadView.xaml</DependentUpon>
     </Compile>
     <Page Include="View\DirectoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Fields\DownloadedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Fields\SpeedView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -109,6 +127,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\TorrentCumulationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\TorrentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

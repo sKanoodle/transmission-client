@@ -71,11 +71,21 @@ namespace Transmission.Client
 
         private async Task DoStuffAsync()
         {
-            var window = new Window();
-            window.Content = LoginVM;
-            window.ShowDialog();
+            Api.Client client;
 
-            Api.Client client = new Api.Client(LoginVM.Address, LoginVM.Username, LoginVM.Password);
+            do
+            {
+                var window = new Window();
+                window.Content = LoginVM;
+                window.Width = 400;
+                window.Height = 200;
+                window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                window.ShowDialog();
+                LoginVM.ErrorString = "Wrong password/username. Please try again!";
+                client = new Api.Client(LoginVM.Address, LoginVM.Username, LoginVM.Password);
+            }
+            while (!await client.TryCredentialsAsync());
+
             UploadVM = new UploadViewModel(client, ((App)Application.Current).PossiblePaths);
             while (true)
             {

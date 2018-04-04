@@ -7,7 +7,7 @@
         xmlns:view="clr-namespace:Transmission.Client.View"
         xmlns:vm="clr-namespace:Transmission.Client.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Transmission Client" Height="600" Width="1200">
     <Grid>
         <TabControl>
             <TabItem Header="Torrents">

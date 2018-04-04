@@ -27,7 +27,7 @@ namespace Transmission.Client.View
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            ((ViewModel.LoginViewModel)DataContext).Password = ((PasswordBox)sender).Password;
+            ((ViewModel.LoginViewModel)DataContext).Password = ((PasswordBox)sender).SecurePassword;
         }
     }
 }

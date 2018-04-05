@@ -8,18 +8,20 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <TextBlock>
         <TextBlock.Text>
-            <MultiBinding StringFormat="{}{0} / {1} ({2:P2})">
+            <MultiBinding StringFormat="{}{0} / {1} ({2:P2}) {3} unverified">
                 <Binding Path="HaveValid" Converter="{StaticResource BinaryPrefixConverter}" />
                 <Binding Path="TotalSize" Converter="{StaticResource BinaryPrefixConverter}" />
                 <Binding Path="PercentDone" />
+                <Binding Path="HaveUnchecked" Converter="{StaticResource BinaryPrefixConverter}" />
             </MultiBinding>
         </TextBlock.Text>
         <ToolTipService.ToolTip>
             <TextBlock>
                 <TextBlock.Text>
-                    <MultiBinding StringFormat="{}{0:N0} B / {1:N0} B">
+                    <MultiBinding StringFormat="{}{0:N0} B / {1:N0} B ({2:N0} B)">
                         <Binding Path="HaveValid" />
                         <Binding Path="TotalSize" />
+                        <Binding Path="HaveUnchecked" />
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>

@@ -11,9 +11,9 @@
         <TabItem Header="Info">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="5" />
-                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="400" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>

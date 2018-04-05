@@ -9,6 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
         <fields:DownloadedView DataContext="{Binding}" />
+        <TextBlock Text="{Binding HaveValidFinished, Converter={StaticResource BinaryPrefixConverter}}" />
         <fields:SpeedView Speed="{Binding DataContext.RateDownload, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:TorrentCumulationView}}" />
         <fields:SpeedView Speed="{Binding DataContext.RateUpload, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:TorrentCumulationView}}" />
         <StackPanel Orientation="Horizontal">

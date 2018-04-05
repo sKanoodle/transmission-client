@@ -18,15 +18,22 @@
                     </Grid.RowDefinitions>
                     <view:TorrentCumulationView Grid.Row="0" DataContext="{Binding TorrentCumulationVM}" />
                     <!-- probably should bind an IsSelected property from ViewModel to IsSelected of every row to allow for multi selection -->
+
+                    <!-- also possible: custom template for rows, so that we can make them nicer. not possible to select them then however -->
+                    <!-- https://social.msdn.microsoft.com/Forums/vstudio/en-US/066948a4-7cd7-41aa-a89b-a936244a9d43 -->
                     <DataGrid Grid.Row="1" ItemsSource="{Binding Path=Torrents}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedTorrent}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding Path=Id}" />
                             <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
-                            <DataGridTextColumn Header="Done Rate" Binding="{Binding Path=PercentDone, StringFormat=P}" />
                             <DataGridTextColumn Header="Down-Speed" Binding="{Binding Path=RateDownload, Converter={StaticResource BinaryPrefixSpeedConverter}}" />
                             <DataGridTextColumn Header="Up-Speed" Binding="{Binding Path=RateUpload, Converter={StaticResource BinaryPrefixSpeedConverter}}" />
+                            <DataGridTextColumn Header="Valid" Binding="{Binding Path=HaveValid, Converter={StaticResource BinaryPrefixConverter}}" />
+                            <DataGridTextColumn Header="Size When Done" Binding="{Binding Path=SizeWhenDone, Converter={StaticResource BinaryPrefixConverter}}" />
+                            <DataGridTextColumn Header="Total Size" Binding="{Binding Path=TotalSize, Converter={StaticResource BinaryPrefixConverter}}" />
+                            <DataGridTextColumn Header="Done Rate" Binding="{Binding Path=PercentDone, StringFormat=P}" />
                             <DataGridTextColumn Header="Status" Binding="{Binding Path=Status}" />
                             <DataGridTextColumn Header="ActivityDate" Binding="{Binding Path=ActivityDate}" />
+                            <DataGridTextColumn Header="Eta" Binding="{Binding Path=Eta}" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

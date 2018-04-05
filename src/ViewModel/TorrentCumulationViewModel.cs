@@ -33,6 +33,7 @@ namespace Transmission.Client.ViewModel
         public int Downloading { get; private set; }
         public int Checking { get; private set; }
         public int Queued { get; private set; }
+        public ulong HaveValidFinished { get; private set; }
 
         public int RateDownload => Sums?.RateDownload ?? 0;
         public int RateUpload => Sums?.RateUpload ?? 0;
@@ -55,6 +56,7 @@ namespace Transmission.Client.ViewModel
         {
             Sums = new Torrent();
             PieceDoneCount = Stopped = Seeding = Downloading = Checking = Queued = 0;
+            HaveValidFinished = 0;
 
             foreach (TorrentViewModel torrent in Torrents)
             {
@@ -83,6 +85,9 @@ namespace Transmission.Client.ViewModel
                     case Status.SeedWait: Queued++; break;
                     default: throw new NotImplementedException();
                 }
+
+                if (torrent.HaveValid == torrent.SizeWhenDone)
+                    HaveValidFinished += torrent.HaveValid;
             }
             OnPropertyChanged(String.Empty);
         }

@@ -25,6 +25,13 @@ namespace Transmission.Client.ViewModel
             set => SetValue(ref _CorruptEver, value);
         }
 
+        private TimeSpan _Eta;
+        public TimeSpan Eta
+        {
+            get => _Eta;
+            set => SetValue(ref _Eta, value);
+        }
+
         private Func<DirectoryViewModel> _CreateFilesRootDirectory;
         public DirectoryViewModel FilesRootDirectory => _CreateFilesRootDirectory();
 
@@ -264,7 +271,7 @@ namespace Transmission.Client.ViewModel
             //torrent.DownloadLimited;
             //torrent.Error;
             //torrent.ErrorString;
-            //torrent.Eta;
+            Eta = TimeSpan.FromSeconds(torrent.Eta);
             //torrent.EtaIdle;
             _CreateFilesRootDirectory = () => DirectoryViewModel.Create(String.Empty, FileViewModel.CreateMany(torrent.FileStats, torrent.Files));
             //torrent.HashString;

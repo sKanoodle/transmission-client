@@ -36,12 +36,15 @@
                 <Label Grid.Row="2" Grid.Column="0" Content="Downspeed" />
                 <fields:SpeedView Grid.Row="2" Grid.Column="2" Speed="{Binding DataContext.RateDownload, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:TorrentView}}" />
 
-                <Label Grid.Row="4" Grid.Column="0" Content="Downloaded" />
-                <fields:DownloadedView Grid.Row="4" Grid.Column="2" DataContext="{Binding}" />
+                <Label Grid.Row="4" Grid.Column="0" Content="Upspeed" />
+                <fields:SpeedView Grid.Row="4" Grid.Column="2" Speed="{Binding DataContext.RateUpload, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:TorrentView}}" />
+
+                <Label Grid.Row="6" Grid.Column="0" Content="Downloaded" />
+                <fields:DownloadedView Grid.Row="6" Grid.Column="2" DataContext="{Binding}" />
 
 
-                <Label Grid.Row="6" Grid.Column="0" Content="Pieces" />
-                <TextBlock Grid.Row="6" Grid.Column="2">
+                <Label Grid.Row="8" Grid.Column="0" Content="Pieces" />
+                <TextBlock Grid.Row="8" Grid.Column="2">
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}{0:N0} / {1:N0} (@ {2})">
                             <Binding Path="PiecesDone" />

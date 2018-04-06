@@ -13,11 +13,11 @@
         <fields:SpeedView Speed="{Binding DataContext.RateDownload, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:TorrentCumulationView}}" />
         <fields:SpeedView Speed="{Binding DataContext.RateUpload, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:TorrentCumulationView}}" />
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding Seeding, StringFormat={}S: {0}\ }" />
-            <TextBlock Text="{Binding Downloading, StringFormat={}D: {0}\ }" />
-            <TextBlock Text="{Binding Checking, StringFormat={}C: {0}\ }" />
-            <TextBlock Text="{Binding Queued, StringFormat={}Q: {0}\ }" />
-            <TextBlock Text="{Binding Stopped, StringFormat={}St: {0}}" />
+            <TextBlock Text="{Binding Seeding, StringFormat={}S: {0}}" />
+            <TextBlock Text="{Binding Downloading, StringFormat={} D: {0}}" />
+            <TextBlock Text="{Binding Checking, StringFormat={} C: {0}}" />
+            <TextBlock Text="{Binding Queued, StringFormat={} Q: {0}}" />
+            <TextBlock Text="{Binding Stopped, StringFormat={} St: {0}}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

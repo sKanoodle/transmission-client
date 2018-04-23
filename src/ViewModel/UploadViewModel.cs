@@ -52,7 +52,7 @@ namespace Transmission.Client.ViewModel
 
         public ICommand UploadMagnetLinkCommand => new RelayCommand(o => UploadLink(MagnetLink, DoStart), o => !String.IsNullOrWhiteSpace(MagnetLink));
         public ICommand AddMagnetLinkCommand => new RelayCommand(o => { AddMagnetLink(MagnetLink); MagnetLink = String.Empty; }, o => !String.IsNullOrWhiteSpace(MagnetLink));
-        public ICommand UploadObjectsCommand => new RelayCommand(o => UploadObjects(Objects, DoStart, u => Objects.Remove(u)), o => Objects.Count > 0);
+        public ICommand UploadObjectsCommand => new RelayCommand(o => UploadObjectsAsync(Objects, DoStart, u => Objects.Remove(u)), o => Objects.Count > 0);
 
         private void UploadLink(string link, bool doStart)
         {
@@ -60,15 +60,15 @@ namespace Transmission.Client.ViewModel
             MagnetLink = String.Empty;
         }
 
-        private void UploadObjects(IEnumerable<IUploadObject> objects, bool doStart, Action<IUploadObject> remove)
+        private async void UploadObjectsAsync(IEnumerable<IUploadObject> objects, bool doStart, Action<IUploadObject> remove)
         {
             objects = objects.ToArray(); //copy objects so we can change source
             foreach (var @object in objects)
             {
                 switch (@object)
                 {
-                    case UploadMagnetLink ml: Client.TorrentAddAsync(ml.Link, !doStart); break;
-                    case TorrentFile uf: Client.TorrentAddBase64Async(uf.Base64, !doStart); break;
+                    case UploadMagnetLink ml: await Client.TorrentAddAsync(ml.Link, !doStart); break;
+                    case TorrentFile uf: await Client.TorrentAddBase64Async(uf.Base64, !doStart); break;
                     default: throw new NotImplementedException();
                 }
                 remove?.Invoke(@object);

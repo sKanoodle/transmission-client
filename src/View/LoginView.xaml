@@ -12,7 +12,7 @@
             <TextBlock Text="{Binding Path=Username}" />
             <PasswordBox PasswordChanged="PasswordBox_PasswordChanged" />
             <TextBlock Text="{Binding ErrorString}" Foreground="Red" />
-            <Button Content="Login" Command="{Binding Path=Close}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+            <Button Content="Login" IsDefault="True" Command="{Binding Path=Close}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
         </StackPanel>
     </Grid>
 </UserControl>

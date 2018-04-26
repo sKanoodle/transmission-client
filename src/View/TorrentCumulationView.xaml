@@ -8,16 +8,25 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
-        <fields:DownloadedView DataContext="{Binding}" />
-        <TextBlock Text="{Binding HaveValidFinished, Converter={StaticResource BinaryPrefixConverter}}" />
-        <fields:SpeedView Speed="{Binding DataContext.RateDownload, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:TorrentCumulationView}}" />
-        <fields:SpeedView Speed="{Binding DataContext.RateUpload, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:TorrentCumulationView}}" />
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding Seeding, StringFormat={}S: {0}}" />
-            <TextBlock Text="{Binding Downloading, StringFormat={} D: {0}}" />
-            <TextBlock Text="{Binding Checking, StringFormat={} C: {0}}" />
-            <TextBlock Text="{Binding Queued, StringFormat={} Q: {0}}" />
-            <TextBlock Text="{Binding Stopped, StringFormat={} St: {0}}" />
+            <fields:DownloadedView DataContext="{Binding}" />
+            <TextBlock Text="Have: " Margin="20 0 0 0"/>
+            <TextBlock Text="{Binding HaveValidFinished, Converter={StaticResource BinaryPrefixConverter}}" />
+            <TextBlock Text="Free: " Margin="20 0 0 0"/>
+            <TextBlock Text="{Binding FreeSpace, Converter={StaticResource BinaryPrefixConverter}}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="⬇" Margin="0 0 5 0" />
+            <fields:SpeedView Width="100" Speed="{Binding DataContext.RateDownload, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:TorrentCumulationView}}" />
+            <TextBlock Text="⬆" Margin="0 0 5 0" />
+            <fields:SpeedView Width="100" Speed="{Binding DataContext.RateUpload, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:TorrentCumulationView}}" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Seeding, StringFormat={}S: {0}}" />
+                <TextBlock Text="{Binding Downloading, StringFormat={} D: {0}}" />
+                <TextBlock Text="{Binding Checking, StringFormat={} C: {0}}" />
+                <TextBlock Text="{Binding Queued, StringFormat={} Q: {0}}" />
+                <TextBlock Text="{Binding Stopped, StringFormat={} St: {0}}" />
+            </StackPanel>
         </StackPanel>
     </StackPanel>
 </UserControl>

@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Transmission.Api;
 using Transmission.Api.Entities;
 
 namespace Transmission.Client.ViewModel
@@ -12,6 +13,7 @@ namespace Transmission.Client.ViewModel
     public class TorrentCumulationViewModel : ViewModelBase
     {
         private readonly ObservableCollection<TorrentViewModel> Torrents;
+        private readonly Api.Client ApiClient;
         private Torrent Sums;
 
         public ulong TotalSize => Sums?.TotalSize ?? 0;
@@ -34,6 +36,7 @@ namespace Transmission.Client.ViewModel
         public int Checking { get; private set; }
         public int Queued { get; private set; }
         public ulong HaveValidFinished { get; private set; }
+        public long FreeSpace { get; private set; }
 
         public int RateDownload => Sums?.RateDownload ?? 0;
         public int RateUpload => Sums?.RateUpload ?? 0;
@@ -46,10 +49,23 @@ namespace Transmission.Client.ViewModel
         public ulong SizeWhenDone => Sums?.SizeWhenDone ?? 0;
         public ulong UploadedEver => Sums?.UploadedEver ?? 0;
 
-        public TorrentCumulationViewModel(ObservableCollection<TorrentViewModel> torrents)
+        public TorrentCumulationViewModel(ObservableCollection<TorrentViewModel> torrents, Api.Client client)
         {
             Torrents = torrents;
+            ApiClient = client;
             Torrents.CollectionChanged += Update;
+            // Update is called too often (each row update in main datagrid) so this is an independant loop
+            SetFreeSpaceLoop();
+        }
+
+        private async Task SetFreeSpaceLoop()
+        {
+            while (true)
+            {
+                FreeSpace = (await ApiClient.GetFreeSpaceAsync()).Size;
+                OnPropertyChanged(nameof(FreeSpace));
+                await Task.Delay(TimeSpan.FromSeconds(1));
+            }
         }
 
         private void Update(object sender, NotifyCollectionChangedEventArgs e)

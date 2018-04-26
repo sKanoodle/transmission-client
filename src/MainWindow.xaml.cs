@@ -26,7 +26,6 @@ namespace Transmission.Client
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public TrulyObservableCollection<TorrentViewModel> Torrents { get; } = new TrulyObservableCollection<TorrentViewModel>();
-        public TorrentCumulationViewModel TorrentCumulationVM => new TorrentCumulationViewModel(Torrents); // never updated
 
         private TorrentViewModel _SelectedTorrent;
         public TorrentViewModel SelectedTorrent
@@ -47,6 +46,18 @@ namespace Transmission.Client
             if (!FilePathPipe.Run(p => UploadVM.DropFilenames = p)) // there is a chance for a null referenec exception here
                 Close();
             DoStuffAsync();
+        }
+
+        private TorrentCumulationViewModel _TorrentCumulationVM;
+        public TorrentCumulationViewModel TorrentCumulationVM
+        {
+            get => _TorrentCumulationVM;
+            set
+            {
+                if (_TorrentCumulationVM == value) return;
+                _TorrentCumulationVM = value;
+                OnPropertyChanged(nameof(TorrentCumulationVM));
+            }
         }
 
         private UploadViewModel _UploadVM;
@@ -88,6 +99,7 @@ namespace Transmission.Client
             while (!await client.TryCredentialsAsync());
 
             UploadVM = new UploadViewModel(client, ((App)Application.Current).PossiblePaths);
+            TorrentCumulationVM = new TorrentCumulationViewModel(Torrents, client);
             while (true)
             {
                 await UpdateShit(client);

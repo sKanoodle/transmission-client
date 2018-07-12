@@ -7,24 +7,29 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <StackPanel>
-            <TextBox Text="{Binding MagnetLink, UpdateSourceTrigger=PropertyChanged}" />
-            <CheckBox IsChecked="{Binding DoStart}">
-                <TextBlock Text="Start when uploaded" />
-            </CheckBox>
-            <StackPanel Orientation="Horizontal">
-                <Button Command="{Binding AddMagnetLinkCommand}" Content="Add Magnet Link" />
-                <Button Command="{Binding UploadMagnetLinkCommand}" Content="Upload Magnet Link" />
-                <Button Command="{Binding UploadObjectsCommand}" Content="Upload Below Objects" />
-            </StackPanel>
-            <TextBlock Background="Aqua" Width="200" Height="200" DragEnter="Upload_DragEnter" DragOver="Upload_DragOver" Drop="Upload_Drop" IsHitTestVisible="True" AllowDrop="True" />
-            <ListView ItemsSource="{Binding Objects}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Label Content="{Binding Name}" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="0" Text="{Binding MagnetLink, UpdateSourceTrigger=PropertyChanged}" />
+        <CheckBox Grid.Row="1" IsChecked="{Binding DoStart}">
+            <TextBlock Text="Start when uploaded" />
+        </CheckBox>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button Command="{Binding AddMagnetLinkCommand}" Content="Add Magnet Link" />
+            <Button Command="{Binding UploadMagnetLinkCommand}" Content="Upload Magnet Link" />
+            <Button Command="{Binding UploadObjectsCommand}" Content="Upload Below Objects" />
         </StackPanel>
+        <TextBlock Grid.Row="3" Text="simply drag and drop .txt files with magnet links or .torrent files below" />
+        <ListView Grid.Row="4" ItemsSource="{Binding Objects}" DragEnter="Upload_DragEnter" DragOver="Upload_DragOver" Drop="Upload_Drop" IsHitTestVisible="True" AllowDrop="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Name}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>

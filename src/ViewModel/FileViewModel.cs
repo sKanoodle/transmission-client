@@ -22,6 +22,8 @@ namespace Transmission.Client.ViewModel
         public ulong Length { get; }
         public string Name { get; set; }
 
+        public decimal CompletedRatio => BytesCompleted < 1 ? 0 : BytesCompleted / (decimal)Length;
+
         public FileViewModel(FileStats stats, File file)
         {
             BytesCompleted = stats.BytesCompleted;

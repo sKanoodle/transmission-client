@@ -7,27 +7,30 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Expander Header="{Binding Name}" IsExpanded="True">
-            <StackPanel>
-                <ListView ItemsSource="{Binding Directories}">
+        <Expander Header="{Binding Name}" IsExpanded="True" BorderThickness="0" >
+            <StackPanel Margin="40 0 0 0">
+                <ListView ItemsSource="{Binding Directories}" BorderThickness="0" HorizontalContentAlignment="Stretch">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <local:DirectoryView DataContext="{Binding}" />
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <ListView ItemsSource="{Binding Files}">
+                <ListView ItemsSource="{Binding Files}" BorderThickness="0" HorizontalContentAlignment="Stretch">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
+                            <Grid>
                                 <TextBlock Text="{Binding Name}" />
-                                <TextBlock Width="10" />
-                                <TextBlock Text="{Binding BytesCompleted, Converter={StaticResource BinaryPrefixConverter}}" />
-                                <TextBlock Text=" / " />
-                                <TextBlock Text="{Binding Length, Converter={StaticResource BinaryPrefixConverter}}" />
-                                <TextBlock Width="10" />
-                                <TextBlock Text="{Binding Wanted}" />
-                            </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Width="80" Text="{Binding BytesCompleted, Converter={StaticResource BinaryPrefixConverter}}" />
+                                    <TextBlock Text=" / " />
+                                    <TextBlock Width="80" Text="{Binding Length, Converter={StaticResource BinaryPrefixConverter}}" />
+                                    <TextBlock Width="10" />
+                                    <TextBlock Width="50" Text="{Binding CompletedRatio, StringFormat=P}" />
+                                    <TextBlock Width="10" />
+                                    <TextBlock Width="30" Text="{Binding Wanted}" />
+                                </StackPanel>
+                            </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

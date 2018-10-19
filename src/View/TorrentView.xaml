@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Transmission.Client.View.TorrentView"
+<UserControl x:Class="Transmission.Client.View.TorrentView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -120,7 +120,9 @@
             </StackPanel>
         </TabItem>
         <TabItem Header="Files">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="Transparent">
             <local:DirectoryView DataContext="{Binding FilesRootDirectory}" />
+            </ScrollViewer>
         </TabItem>
     </TabControl>
 </UserControl>

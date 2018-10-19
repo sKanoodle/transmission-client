@@ -186,6 +186,8 @@ namespace Transmission.Client.ViewModel
             set => SetValue(ref _TotalSize, value);
         }
 
+        public TrulyObservableCollection<TrackerViewModel> Trackers { get; } = new TrulyObservableCollection<TrackerViewModel>();
+
         private ulong _UploadedEver;
         public ulong UploadedEver
         {
@@ -250,8 +252,6 @@ namespace Transmission.Client.ViewModel
             return result;
         }
 
-        private DateTime UnixToRegularTime(int unix) => new DateTime(1970, 1, 1).AddSeconds(unix);
-
         public void UpdateTorrent(Torrent torrent) => SetTorrent(torrent);
 
         private void SetTorrent(Torrent torrent)
@@ -315,8 +315,8 @@ namespace Transmission.Client.ViewModel
             Status = torrent.Status;
             //torrent.TorrentFile;
             TotalSize = torrent.TotalSize;
-            ////torrent.Trackers; --> tracker VM
-            ////torrent.TrackerStats; --> tracker VM
+            ////torrent.Trackers; not needed, all info is in  trackerstats as well. would only be useful if you need lightweight stats
+            HandleTrackers(torrent.TrackerStats);
             UploadedEver = torrent.UploadedEver;
             //torrent.UploadLimit;
             //torrent.UploadRatio;
@@ -348,6 +348,18 @@ namespace Transmission.Client.ViewModel
 
             foreach (int hash in oldHashes)
                 Peers.Remove(hashToPeerVM[hash]);
+        }
+
+        private void HandleTrackers(IEnumerable<TrackerStats> trackers)
+        {
+            Dictionary<uint, TrackerViewModel> ids = Trackers.ToDictionary(t => t.ID, t => t);
+            foreach (var tracker in trackers)
+            {
+                if (ids.TryGetValue(tracker.Id, out var match))
+                    match.Update(tracker);
+                else
+                    Trackers.Add(new TrackerViewModel(tracker));
+            }
         }
     }
 }

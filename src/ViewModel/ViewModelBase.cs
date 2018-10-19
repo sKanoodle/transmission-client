@@ -25,5 +25,7 @@ namespace Transmission.Client.ViewModel
             OnPropertyChanged(caller);
             return true;
         }
+
+        protected DateTime UnixToRegularTime(int unix) => new DateTime(1970, 1, 1).AddSeconds(unix);
     }
 }

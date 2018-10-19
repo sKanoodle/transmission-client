@@ -119,9 +119,33 @@
                 </DataGrid>
             </StackPanel>
         </TabItem>
+        <TabItem Header="Trackers">
+            <DataGrid ItemsSource="{Binding Trackers}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding ID}" />
+                    <DataGridTextColumn Header="Tier" Binding="{Binding Tier}" />
+                    <DataGridTextColumn Header="Host" Binding="{Binding Host}" />
+                    <DataGridTextColumn Header="Seeders" Binding="{Binding SeederCount}" />
+                    <DataGridTextColumn Header="Leechers" Binding="{Binding LeecherCount}" />
+                    <DataGridTextColumn Header="Announce State" Binding="{Binding AnnounceState}" />
+                    <DataGridTextColumn Header="Next Announce" Binding="{Binding NextAnnounceTime}" />
+                    <DataGridTextColumn Header="Last Announce" Binding="{Binding LastAnnounceTime}" />
+                    <DataGridTextColumn Header="Result" Binding="{Binding LastAnnounceResult}" />
+                    <DataGridTextColumn Header="Peer Count" Binding="{Binding LastAnnouncePeerCount}" />
+                    <DataGridTextColumn Header="Start Time" Binding="{Binding LastAnnounceStartTime}" />
+                    <DataGridTextColumn Header="Timed Out" Binding="{Binding LastAnnounceTimedOut}" />
+                    <DataGridTextColumn Header="Scrape State" Binding="{Binding ScrapeState}" />
+                    <DataGridTextColumn Header="Next Scrape" Binding="{Binding NextScrapeTime}" />
+                    <DataGridTextColumn Header="Last Scrape" Binding="{Binding LastScrapeTime}" />
+                    <DataGridTextColumn Header="Result" Binding="{Binding LastScrapeResult}" />
+                    <DataGridTextColumn Header="Start Time" Binding="{Binding LastScrapeStartTime}" />
+                    <DataGridTextColumn Header="Timed Out" Binding="{Binding LastScrapeTimedOut}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </TabItem>
         <TabItem Header="Files">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="Transparent">
-            <local:DirectoryView DataContext="{Binding FilesRootDirectory}" />
+                <local:DirectoryView DataContext="{Binding FilesRootDirectory}" />
             </ScrollViewer>
         </TabItem>
     </TabControl>

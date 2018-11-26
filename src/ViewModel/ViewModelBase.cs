@@ -17,6 +17,15 @@ namespace Transmission.Client.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        protected bool SetValue<T>(T getter, Action<T> setter, T value, [CallerMemberName]string caller = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(getter, value))
+                return false;
+            setter(value);
+            OnPropertyChanged(caller);
+            return true;
+        }
+
         protected bool SetValue<T>(ref T backingField, T value, [CallerMemberName]string caller = null)
         {
             if (EqualityComparer<T>.Default.Equals(backingField, value))

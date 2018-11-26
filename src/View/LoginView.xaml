@@ -7,12 +7,53 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <StackPanel>
-            <TextBlock Text="{Binding Path=Address}" />
-            <TextBlock Text="{Binding Path=Username}" />
-            <PasswordBox PasswordChanged="PasswordBox_PasswordChanged" />
-            <TextBlock Text="{Binding ErrorString}" Foreground="Red" />
-            <Button Content="Login" IsDefault="True" Command="{Binding Path=Close}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
-        </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="0" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="0" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="0" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="0" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="0" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="0" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="0" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="0" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="1" Grid.Column="1"
+               Content="Server" />
+        <TextBox Grid.Row="1" Grid.Column="3"
+                 Text="{Binding Path=Address, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Label Grid.Row="3" Grid.Column="1"
+               Content="Username" />
+        <TextBox Grid.Row="3" Grid.Column="3"
+                 Text="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Label Grid.Row="5" Grid.Column="1"
+               Content="Password" />
+        <PasswordBox Grid.Row="5" Grid.Column="3"
+                     PasswordChanged="PasswordBox_PasswordChanged" />
+
+        <Label Grid.Row="7" Grid.Column="1"
+               Content="Remember me" />
+        <CheckBox Grid.Row="7" Grid.Column="3"
+                  IsChecked="{Binding Path=DoSave}" />
+
+        <TextBlock Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="3"
+                   Text="{Binding ErrorString}" Foreground="Red" />
+        <Button Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="3"
+                Content="Login" IsDefault="True"
+                Command="{Binding Path=Close}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
     </Grid>
 </UserControl>

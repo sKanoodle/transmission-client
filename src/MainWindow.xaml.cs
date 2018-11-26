@@ -17,6 +17,8 @@ using Transmission.Api.Entities;
 using Transmission.Client.ViewModel;
 using Transmission.Client;
 using System.ComponentModel;
+using System.IO;
+using System.IO.IsolatedStorage;
 
 namespace Transmission.Client
 {
@@ -72,7 +74,8 @@ namespace Transmission.Client
             }
         }
 
-        LoginViewModel LoginVM = new LoginViewModel();
+        Model.ILoginDataStore LoginDataStore = new Model.WindowsLoginDataStore();
+        LoginViewModel LoginVM;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -83,31 +86,51 @@ namespace Transmission.Client
 
         private async Task DoStuffAsync()
         {
-            Api.Client client;
+            LoginVM = new LoginViewModel(LoginDataStore);
+            Api.Client client = null;
+            var window = new Window();
+            window.Content = LoginVM;
+            window.Width = 400;
+            window.Height = 200;
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            bool iCalledCloseMyselfThankYou = false;
 
-            do
+            // TODO: is there really no better way to do this?
+            window.Closing += async (sender, e) =>
             {
-                var window = new Window();
-                window.Content = LoginVM;
-                window.Width = 400;
-                window.Height = 200;
-                window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                window.ShowDialog();
-                LoginVM.ErrorString = "Wrong password/username. Please try again!";
+                if (iCalledCloseMyselfThankYou)
+                    return;
+
+                e.Cancel = true;
                 client = new Api.Client(LoginVM.Address, LoginVM.Username, LoginVM.Password);
-            }
-            while (!await client.TryCredentialsAsync());
+                // dont wait for result, because that would completely lock everything, cause WPF and async
+                // now, the event finishes without waiting for this, so we do the shenanigans with close bool
+                (bool success, string error) = await client.TryCredentialsAsync();
+
+                if (success)
+                {
+                    iCalledCloseMyselfThankYou = true;
+                    ((Window)sender).Close();
+                    return;
+                }
+
+                LoginVM.ErrorString = error;
+            };
+
+            window.ShowDialog();
+
+            LoginDataStore.SaveData();
 
             UploadVM = new UploadViewModel(client, ((App)Application.Current).PossiblePaths);
             TorrentCumulationVM = new TorrentCumulationViewModel(Torrents, client);
             while (true)
             {
-                await UpdateShit(client);
+                await UpdateTorrents(client);
                 await Task.Delay(TimeSpan.FromSeconds(1));
             }
         }
 
-        private async Task UpdateShit(Api.Client client)
+        private async Task UpdateTorrents(Api.Client client)
         {
             //var fields = TorrentFields.Id | TorrentFields.Name | TorrentFields.PercentDone | TorrentFields.RateDownload | TorrentFields.RateUpload | TorrentFields.Status;
             var fields = TorrentFields.All;

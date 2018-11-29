@@ -171,7 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\transmission-api\src\TransmissionApi.csproj">
-      <Project>{921bcf23-249e-4ae6-ad6f-efbfab60116d}</Project>
+      <Project>{5952c45a-d90d-4922-acf0-8545c25f037c}</Project>
       <Name>TransmissionApi</Name>
     </ProjectReference>
   </ItemGroup>

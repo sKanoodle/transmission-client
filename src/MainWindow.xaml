@@ -49,6 +49,7 @@
                             <DataGridTextColumn Header="Done Rate" Binding="{Binding Path=PercentDone, StringFormat=P}" />
                             <DataGridTextColumn Header="Status" Binding="{Binding Path=Status}" />
                             <DataGridTextColumn Header="ActivityDate" Binding="{Binding Path=ActivityDate}" />
+                            <DataGridTextColumn Header="Age" Binding="{Binding Path=AddedDate}" />
                             <DataGridTextColumn Header="Eta" Binding="{Binding Path=Eta}" />
                         </DataGrid.Columns>
                     </DataGrid>

@@ -18,6 +18,13 @@ namespace Transmission.Client.ViewModel
             set => SetValue(ref _ActivityDate, value);
         }
 
+        private DateTime _AddedDate;
+        public DateTime AddedDate
+        {
+            get => _AddedDate;
+            set => SetValue(ref _AddedDate, value);
+        }
+
         private ulong _CorruptEver;
         public ulong CorruptEver
         {
@@ -257,7 +264,7 @@ namespace Transmission.Client.ViewModel
         private void SetTorrent(Torrent torrent)
         {
             ActivityDate = UnixToRegularTime(torrent.ActivityDate);
-            //torrent.AddedDate;
+            AddedDate = UnixToRegularTime(torrent.AddedDate);
             //torrent.BandwidthPriority;
             //torrent.Comment;
             CorruptEver = torrent.CorruptEver;
